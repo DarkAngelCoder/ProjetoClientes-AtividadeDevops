@@ -1,7 +1,14 @@
-FROM mcr.microsoft.com/powershell:latest
+# Use a imagem do OpenJDK 11 como base
+FROM openjdk:11
 
-COPY TerceiraAtividade.ps1 /scripts/
+# Copie os arquivos do seu projeto para o diretório de trabalho do contêiner
+COPY . /usr/src/app
 
-CMD ["pwsh", "-File", "/scripts/TerceiraAtividade.ps1"]
+# Defina o diretório de trabalho
+WORKDIR /usr/src/app
 
+# Compile o código Java
+RUN javac -d . cadastroclientes/*.java
 
+# Especifique o comando a ser executado quando o contêiner for iniciado
+CMD ["java", "cadastroclientes.Main"]
